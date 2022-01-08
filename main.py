@@ -180,68 +180,50 @@ cv2.imwrite('v2_pic1_kaze.jpg', img)
 img = cv2.drawKeypoints(kaze_gray, kaze_kp, img, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 cv2.imwrite('v2_pic1_kaze2.jpg', img)
 
-image1 = cv2.imread(filename='image1.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
-image2 = cv2.imread(filename='image2.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
+image1 = cv2.imread(filename='image1.jpg', flags=cv2.IMREAD_GRAYSCALE)
+image2 = cv2.imread(filename='image2.jpg', flags=cv2.IMREAD_GRAYSCALE)
 kaze = cv2.KAZE_create()
 keypoints1, descriptors1 = kaze.detectAndCompute(image1, None)
 keypoints2, descriptors2 = kaze.detectAndCompute(image2, None)
 FLANN_INDEX_KDTREE = 1
-index_params = dict(algorithm=FLANN_INDEX_KDTREE,
-                    trees=5)
+index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
 search_params = dict(checks=50)
 descriptors1 = np.float32(descriptors1)
 descriptors2 = np.float32(descriptors2)
-FLANN = cv2.FlannBasedMatcher(indexParams=index_params,
-                              searchParams=search_params)
+FLANN = cv2.FlannBasedMatcher(indexParams=index_params, searchParams=search_params)
 matches = FLANN.knnMatch(queryDescriptors=descriptors1,
-                         trainDescriptors=descriptors2,
-                         k=2)
+                         trainDescriptors=descriptors2, k=2)
 ratio_thresh = 0.7
 good_matches = []
 for m, n in matches:
     if m.distance < ratio_thresh * n.distance:
         good_matches.append(m)
-output = cv2.drawMatches(img1=image1,
-                         keypoints1=keypoints1,
-                         img2=image2,
-                         keypoints2=keypoints2,
-                         matches1to2=good_matches,
-                         outImg=None,
-                         flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+output = cv2.drawMatches(img1=image1, keypoints1=keypoints1, img2=image2,
+                         keypoints2=keypoints2, matches1to2=good_matches,
+                         outImg=None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 cv2.imwrite('v2_image_kaze.jpg', output)
 
-image3 = cv2.imread(filename='image3.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
-image4 = cv2.imread(filename='image4.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
+image3 = cv2.imread(filename='image3.jpg', flags=cv2.IMREAD_GRAYSCALE)
+image4 = cv2.imread(filename='image4.jpg', flags=cv2.IMREAD_GRAYSCALE)
 kaze = cv2.KAZE_create()
 keypoints3, descriptors3 = kaze.detectAndCompute(image3, None)
 keypoints4, descriptors4 = kaze.detectAndCompute(image4, None)
 FLANN_INDEX_KDTREE = 1
-index_params = dict(algorithm=FLANN_INDEX_KDTREE,
-                    trees=5)
+index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
 search_params = dict(checks=50)
 descriptors3 = np.float32(descriptors3)
 descriptors4 = np.float32(descriptors4)
-FLANN = cv2.FlannBasedMatcher(indexParams=index_params,
-                              searchParams=search_params)
+FLANN = cv2.FlannBasedMatcher(indexParams=index_params, searchParams=search_params)
 matches = FLANN.knnMatch(queryDescriptors=descriptors3,
-                         trainDescriptors=descriptors4,
-                         k=2)
+                         trainDescriptors=descriptors4, k=2)
 ratio_thresh = 0.7
 good_matches = []
 for m, n in matches:
     if m.distance < ratio_thresh * n.distance:
         good_matches.append(m)
-output = cv2.drawMatches(img1=image3,
-                         keypoints1=keypoints3,
-                         img2=image4,
-                         keypoints2=keypoints4,
-                         matches1to2=good_matches,
-                         outImg=None,
-                         flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+output = cv2.drawMatches(img1=image3, keypoints1=keypoints3, img2=image4,
+                         keypoints2=keypoints4, matches1to2=good_matches,
+                         outImg=None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 cv2.imwrite('v2_image2_kaze.jpg', output)
 
 # AKZAE
@@ -254,46 +236,30 @@ cv2.imwrite('v2_pic1_akaze.jpg', img)
 img = cv2.drawKeypoints(akaze_gray, akaze_kp, img, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 cv2.imwrite('v2_pic1_akaze2.jpg', img)
 
-image1 = cv2.imread(filename='image1.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
-image2 = cv2.imread(filename='image2.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
+image1 = cv2.imread(filename='image1.jpg', flags=cv2.IMREAD_GRAYSCALE)
+image2 = cv2.imread(filename='image2.jpg', flags=cv2.IMREAD_GRAYSCALE)
 akaze = cv2.AKAZE_create()
 keypoints1, descriptors1 = akaze.detectAndCompute(image1, None)
 keypoints2, descriptors2 = akaze.detectAndCompute(image2, None)
-BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING,
-                          crossCheck=True)
-matches = BFMatcher.match(queryDescriptors=descriptors1,
-                          trainDescriptors=descriptors2)
+BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING, crossCheck=True)
+matches = BFMatcher.match(queryDescriptors=descriptors1, trainDescriptors=descriptors2)
 matches = sorted(matches, key=lambda x: x.distance)
-output = cv2.drawMatches(img1=image1,
-                         keypoints1=keypoints1,
-                         img2=image2,
-                         keypoints2=keypoints2,
-                         matches1to2=matches[:100],
-                         outImg=None,
-                         flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+output = cv2.drawMatches(img1=image1, keypoints1=keypoints1, img2=image2,
+                         keypoints2=keypoints2, matches1to2=matches[:100],
+                         outImg=None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 cv2.imwrite('v2_image_akaze.jpg', output)
 
-image3 = cv2.imread(filename='image3.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
-image4 = cv2.imread(filename='image4.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
+image3 = cv2.imread(filename='image3.jpg', flags=cv2.IMREAD_GRAYSCALE)
+image4 = cv2.imread(filename='image4.jpg', flags=cv2.IMREAD_GRAYSCALE)
 akaze = cv2.AKAZE_create()
 keypoints3, descriptors3 = akaze.detectAndCompute(image3, None)
 keypoints4, descriptors4 = akaze.detectAndCompute(image4, None)
-BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING,
-                          crossCheck=True)
-matches = BFMatcher.match(queryDescriptors=descriptors3,
-                          trainDescriptors=descriptors4)
+BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING, crossCheck=True)
+matches = BFMatcher.match(queryDescriptors=descriptors3, trainDescriptors=descriptors4)
 matches = sorted(matches, key=lambda x: x.distance)
-output = cv2.drawMatches(img1=image3,
-                         keypoints1=keypoints3,
-                         img2=image4,
-                         keypoints2=keypoints4,
-                         matches1to2=matches[:100],
-                         outImg=None,
-                         flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+output = cv2.drawMatches(img1=image3, keypoints1=keypoints3, img2=image4,
+                         keypoints2=keypoints4, matches1to2=matches[:100],
+                         outImg=None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 cv2.imwrite('v2_image2_akaze.jpg', output)
 
 # BRISK
@@ -306,44 +272,28 @@ cv2.imwrite('v2_pic1_brisk.jpg', img)
 img = cv2.drawKeypoints(brisk_gray, brisk_kp, img, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 cv2.imwrite('v2_pic1_brisk2.jpg', img)
 
-image1 = cv2.imread(filename='image1.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
-image2 = cv2.imread(filename='image2.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
+image1 = cv2.imread(filename='image1.jpg', flags=cv2.IMREAD_GRAYSCALE)
+image2 = cv2.imread(filename='image2.jpg', flags=cv2.IMREAD_GRAYSCALE)
 BRISK = cv2.BRISK_create()
 keypoints1, descriptors1 = BRISK.detectAndCompute(image1, None)
 keypoints2, descriptors2 = BRISK.detectAndCompute(image2, None)
-BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING,
-                          crossCheck=True)
-matches = BFMatcher.match(queryDescriptors=descriptors1,
-                          trainDescriptors=descriptors2)
+BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING, crossCheck=True)
+matches = BFMatcher.match(queryDescriptors=descriptors1, trainDescriptors=descriptors2)
 matches = sorted(matches, key=lambda x: x.distance)
-output = cv2.drawMatches(img1=image1,
-                         keypoints1=keypoints1,
-                         img2=image2,
-                         keypoints2=keypoints2,
-                         matches1to2=matches[:100],
-                         outImg=None,
-                         flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+output = cv2.drawMatches(img1=image1, keypoints1=keypoints1, img2=image2,
+                         keypoints2=keypoints2, matches1to2=matches[:100],
+                         outImg=None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 cv2.imwrite('v2_image_brisk.jpg', output)
 
-image3 = cv2.imread(filename='image3.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
-image4 = cv2.imread(filename='image4.jpg',
-                    flags=cv2.IMREAD_GRAYSCALE)
+image3 = cv2.imread(filename='image3.jpg', flags=cv2.IMREAD_GRAYSCALE)
+image4 = cv2.imread(filename='image4.jpg', flags=cv2.IMREAD_GRAYSCALE)
 BRISK = cv2.BRISK_create()
 keypoints3, descriptors3 = BRISK.detectAndCompute(image3, None)
 keypoints4, descriptors4 = BRISK.detectAndCompute(image4, None)
-BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING,
-                          crossCheck=True)
-matches = BFMatcher.match(queryDescriptors=descriptors3,
-                          trainDescriptors=descriptors4)
+BFMatcher = cv2.BFMatcher(normType=cv2.NORM_HAMMING, crossCheck=True)
+matches = BFMatcher.match(queryDescriptors=descriptors3, trainDescriptors=descriptors4)
 matches = sorted(matches, key=lambda x: x.distance)
-output = cv2.drawMatches(img1=image3,
-                         keypoints1=keypoints3,
-                         img2=image4,
-                         keypoints2=keypoints4,
-                         matches1to2=matches[:100],
-                         outImg=None,
-                         flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+output = cv2.drawMatches(img1=image3, keypoints1=keypoints3, img2=image4,
+                         keypoints2=keypoints4, matches1to2=matches[:100],
+                         outImg=None, flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 cv2.imwrite('v2_image2_brisk.jpg', output)
